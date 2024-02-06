@@ -1,9 +1,10 @@
 import time
 import re
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from .base_page import BasePage
 from .locators import *
-from selenium.common.exceptions import NoAlertPresentException
+from selenium.common.exceptions import NoAlertPresentException, TimeoutException
 import math
 import time
 
@@ -38,3 +39,20 @@ class ProductPage(BasePage):
         product_price_added = self.browser.find_element(*ProductPageLocator.PRODUCT_PRICE_ADDED)
         assert product_price.text == product_price_added.text, \
             f"Стоимость книги в корзине ({product_price_added.text}) не соответствует стоимости выбранной книги ({product_price.text})"
+
+    def is_not_element_present(self, timeout=4):
+        try:
+            WebDriverWait(self.browser, timeout).until(
+                EC.presence_of_element_located(ProductPageLocator.PRESENT_ELEMENT))
+        except TimeoutException:
+            return True
+        return False
+
+    def is_disappeared(self, timeout=4):
+        try:
+            WebDriverWait(self.browser, timeout, 1, TimeoutException). \
+                until_not(EC.presence_of_element_located(ProductPageLocator.PRESENT_ELEMENT))
+        except TimeoutException:
+            return False
+
+        return True
