@@ -1,12 +1,10 @@
 import time
-import re
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from .base_page import BasePage
 from .locators import *
 from selenium.common.exceptions import NoAlertPresentException, TimeoutException
 import math
-import time
 
 
 class ProductPage(BasePage):
@@ -54,5 +52,4 @@ class ProductPage(BasePage):
                 until_not(EC.presence_of_element_located(ProductPageLocator.PRESENT_ELEMENT))
         except TimeoutException:
             return False
-
         return True

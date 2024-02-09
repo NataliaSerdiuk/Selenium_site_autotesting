@@ -18,3 +18,9 @@ class ProductPageLocator():
     PRODUCT_PRICE = (By.CSS_SELECTOR, ".product_main .price_color")
     PRODUCT_PRICE_ADDED = (By.CSS_SELECTOR, ".alertinner p strong")
     PRESENT_ELEMENT = (By.CSS_SELECTOR, ".alertinner")
+
+
+class BasketPageLocator():
+    BASKET_BUTTON = (By.CSS_SELECTOR, ".basket-mini .btn")
+    EMPTY_BASKET_MESSAGE = (By.CSS_SELECTOR, "#content_inner > p")
+    NOT_EMPTY_BASKET = (By.CSS_SELECTOR, ".col-sm-6")
