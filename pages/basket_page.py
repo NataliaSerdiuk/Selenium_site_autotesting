@@ -19,5 +19,5 @@ class BasketPage(BasePage):
             WebDriverWait(self.browser, timeout).until(
                 EC.presence_of_element_located(BasketPageLocator.EMPTY_BASKET_MESSAGE))
         except TimeoutException:
-            return True
-        return False
+            return False
+        return True

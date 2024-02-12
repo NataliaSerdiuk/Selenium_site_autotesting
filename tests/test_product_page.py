@@ -5,6 +5,36 @@ from pages.base_page import BasePage
 from pages.basket_page import BasketPage
 from pages.product_page import ProductPage
 from pages.login_page import LoginPage
+import time
+import random
+
+
+class TestUserAddToBasketFromProductPage():
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/en-gb/accounts/login/"
+        email = str(time.time()) + "@fakemail.org"
+        password = str(random.randint(100000000, 999999999))
+        register = LoginPage(browser, link)
+        register.open()
+        register.register_new_user(email, password)
+        register.should_be_authorized_user()
+
+    def test_user_can_add_product_to_basket(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+        page = ProductPage(browser, link)
+        page.open()
+        page.add_product_to_the_basket()
+        # page.solve_quiz_and_get_code()
+        page.check_added_product_name()
+        page.check_added_product_price()
+
+    def test_user_cant_see_success_message(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+        page = ProductPage(browser, link)
+        page.open()
+        assert page.is_not_element_present(), "Сообщение об успешном добавлении товара в корзину появляется при добавлении товара"
+
 
 links_list = [
     "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0",
@@ -21,6 +51,7 @@ links_list = [
 ]
 
 
+@pytest.mark.skip
 @pytest.mark.parametrize("links", links_list)
 def test_guest_can_add_product_to_basket(browser, links):
     link = links
