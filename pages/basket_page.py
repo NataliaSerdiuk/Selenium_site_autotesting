@@ -15,9 +15,6 @@ class BasketPage(BasePage):
         return False
 
     def should_be_message_that_the_basket_is_empty(self, timeout=2):
-        try:
-            WebDriverWait(self.browser, timeout).until(
-                EC.presence_of_element_located(BasketPageLocator.EMPTY_BASKET_MESSAGE))
-        except TimeoutException:
-            return False
-        return True
+        assert WebDriverWait(self.browser, timeout).until(
+                EC.presence_of_element_located(BasketPageLocator.EMPTY_BASKET_MESSAGE)), "Корзина, открытая со страницы продукта, не является пустой"
+
