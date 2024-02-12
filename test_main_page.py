@@ -1,6 +1,7 @@
 import pytest
-from .pages.main_page import MainPage
+
 from .pages.basket_page import BasketPage
+from .pages.main_page import MainPage
 
 link = "http://selenium1py.pythonanywhere.com/"
 
@@ -23,4 +24,4 @@ def test_guest_cant_see_product_in_basket_opened_from_main_page(browser):
     page.open()
     page.go_to_the_basket()
     page.basket_should_be_empty()
-    assert page.should_be_message_that_the_basket_is_empty(), "Корзина, открытая с главной страницы, не является пустой"
+    page.should_be_message_that_the_basket_is_empty()

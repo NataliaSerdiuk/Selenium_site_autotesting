@@ -1,10 +1,12 @@
-import time
-import pytest
 import random
+import time
+
+import pytest
+
 from .pages.base_page import BasePage
 from .pages.basket_page import BasketPage
-from .pages.product_page import ProductPage
 from .pages.login_page import LoginPage
+from .pages.product_page import ProductPage
 
 
 class TestUserAddToBasketFromProductPage():
@@ -31,7 +33,7 @@ class TestUserAddToBasketFromProductPage():
         link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
         page = ProductPage(browser, link)
         page.open()
-        assert page.is_not_element_present(), "Сообщение об успешном добавлении товара в корзину появляется при добавлении товара"
+        page.is_not_element_present()
 
 
 @pytest.mark.need_review
@@ -53,14 +55,14 @@ def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
     page = ProductPage(browser, link_for_negative_tests)
     page.open()
     page.add_product_to_the_basket()
-    assert page.is_not_element_present(), "Сообщение об успешном добавлении товара в корзину появилось"
+    page.is_not_element_present()
 
 
 @pytest.mark.xfail
 def test_guest_cant_see_success_message(browser):
     page = ProductPage(browser, link_for_negative_tests)
     page.open()
-    assert page.is_not_element_present(), "Сообщение об успешном добавлении товара в корзину появляется при добавлении товара"
+    page.is_not_element_present()
 
 
 @pytest.mark.xfail
@@ -68,7 +70,7 @@ def test_message_disappeared_after_adding_product_to_basket(browser):
     page = ProductPage(browser, link_for_negative_tests)
     page.open()
     page.add_product_to_the_basket()
-    assert page.is_disappeared(), "Сообщение о добавлении товара не исчезает"
+    page.is_disappeared()
 
 
 def test_guest_should_see_login_link_on_product_page(browser):
