@@ -51,7 +51,6 @@ links_list = [
 ]
 
 
-@pytest.mark.skip
 @pytest.mark.parametrize("links", links_list)
 def test_guest_can_add_product_to_basket(browser, links):
     link = links
