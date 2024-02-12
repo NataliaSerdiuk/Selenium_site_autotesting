@@ -1,5 +1,8 @@
-from selenium.common.exceptions import NoSuchElementException
-from .locators import BasePageLocators, BasketPageLocator
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+
+from .locators import BasePageLocators, BasketPageLocator, ProductPageLocator
 
 
 class BasePage():
@@ -28,6 +31,22 @@ class BasePage():
     def go_to_the_basket(self):
         basket_button = self.browser.find_element(*BasketPageLocator.BASKET_BUTTON)
         basket_button.click()
+
+    def is_not_element_present(self, timeout=4):
+        try:
+            WebDriverWait(self.browser, timeout).until(
+                EC.presence_of_element_located(ProductPageLocator.PRESENT_ELEMENT))
+        except TimeoutException:
+            return True
+        return False
+
+    def is_disappeared(self, timeout=4):
+        try:
+            WebDriverWait(self.browser, timeout, 1, TimeoutException). \
+                until_not(EC.presence_of_element_located(ProductPageLocator.PRESENT_ELEMENT))
+        except TimeoutException:
+            return False
+        return True
 
     def should_be_authorized_user(self):
         assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \

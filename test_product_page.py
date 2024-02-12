@@ -62,7 +62,7 @@ def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
 def test_guest_cant_see_success_message(browser):
     page = ProductPage(browser, link_for_negative_tests)
     page.open()
-    page.is_not_element_present()
+    page.should_not_be_success_message()
 
 
 @pytest.mark.xfail
@@ -70,7 +70,7 @@ def test_message_disappeared_after_adding_product_to_basket(browser):
     page = ProductPage(browser, link_for_negative_tests)
     page.open()
     page.add_product_to_the_basket()
-    page.is_disappeared()
+    page.should_dissapear_of_success_message()
 
 
 def test_guest_should_see_login_link_on_product_page(browser):

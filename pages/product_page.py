@@ -1,8 +1,6 @@
 import math
 
-from selenium.common.exceptions import NoAlertPresentException, TimeoutException
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import NoAlertPresentException
 
 from .base_page import BasePage
 from .locators import *
@@ -39,10 +37,9 @@ class ProductPage(BasePage):
         assert product_price.text == product_price_added.text, \
             f"Стоимость книги в корзине ({product_price_added.text}) не соответствует стоимости выбранной книги ({product_price.text})"
 
-    def is_not_element_present(self, timeout=4):
-        assert not WebDriverWait(self.browser, timeout).until(
-                EC.presence_of_element_located(ProductPageLocator.PRESENT_ELEMENT)), "Сообщение об успешном добавлении товара в корзину"
 
-    def is_disappeared(self, timeout=4):
-        assert WebDriverWait(self.browser, timeout, 1, TimeoutException). \
-                until_not(EC.presence_of_element_located(ProductPageLocator.PRESENT_ELEMENT)), "Сообщение о добавлении товара не исчезает"
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(ProductPageLocator.PRESENT_ELEMENT), "Сообщение об успешном добавлении товара в корзину"
+
+    def should_dissapear_of_success_message(self):
+        assert self.is_disappeared(ProductPageLocator.PRESENT_ELEMENT), "Сообщение о добавлении товара не исчезает"
